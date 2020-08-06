@@ -28,6 +28,7 @@ public class IntegrationTest {
 	
 	@Test
 	public void testSimpleGame() {
+		PrettyPrintRow.clear();
 		Table table = new Table(numCols, colorManager);
 		Color[] secret = createSecret();
 		System.out.println(PrettyPrintRow.print(new Row(secret)));

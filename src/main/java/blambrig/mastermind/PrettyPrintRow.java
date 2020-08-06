@@ -21,6 +21,11 @@ public class PrettyPrintRow {
 		return colorString + matchString;
 	}
 	
+	public static void clear () {
+		letterMapping.clear();
+		counter = 0;
+	}
+	
 	private static char colorToChar (Color color) throws IllegalArgumentException {
 		if (color == Color.none || color == null) {
 			throw new IllegalArgumentException("Color cannot be none or null");
