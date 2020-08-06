@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Table {
+	public final ColorManager colorManager;
 	final int numCols;
-	final ColorManager colorManager;
 	final List<Row> rows;
 	
 	public Table(int numCols, ColorManager colorManager) {

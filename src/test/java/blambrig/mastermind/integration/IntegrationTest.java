@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import blambrig.mastermind.*;
+import blambrig.mastermind.guessers.UniqueGuesser;
+import blambrig.mastermind.print.PrettyPrintRow;
 
 public class IntegrationTest {
 	final int numColors = 6;

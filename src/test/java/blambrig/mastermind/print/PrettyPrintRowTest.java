@@ -1,8 +1,13 @@
-package blambrig.mastermind;
+package blambrig.mastermind.print;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import blambrig.mastermind.Color;
+import blambrig.mastermind.ColorManager;
+import blambrig.mastermind.Row;
+import blambrig.mastermind.Table;
 
 public class PrettyPrintRowTest {
 	final int numColors = 6;

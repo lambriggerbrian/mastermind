@@ -1,7 +1,10 @@
-package blambrig.mastermind;
+package blambrig.mastermind.print;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import blambrig.mastermind.Color;
+import blambrig.mastermind.Row;
 
 public class PrettyPrintRow {
 	private static final Map<Color, Character> letterMapping = new HashMap<>();

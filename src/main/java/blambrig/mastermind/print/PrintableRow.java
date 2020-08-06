@@ -1,4 +1,7 @@
-package blambrig.mastermind;
+package blambrig.mastermind.print;
+
+import blambrig.mastermind.Color;
+import blambrig.mastermind.Row;
 
 public class PrintableRow extends Row {
 	public PrintableRow(Row source) {

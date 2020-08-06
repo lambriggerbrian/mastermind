@@ -1,6 +1,10 @@
-package blambrig.mastermind;
+package blambrig.mastermind.guessers;
 
 import java.util.HashSet;
+
+import blambrig.mastermind.Color;
+import blambrig.mastermind.Guesser;
+import blambrig.mastermind.Table;
 
 public class UniqueGuesser extends Guesser {
 	
