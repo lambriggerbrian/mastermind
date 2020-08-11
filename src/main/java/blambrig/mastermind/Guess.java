@@ -22,21 +22,21 @@ public class Guess {
 	}
 	
 	public Guess nextGuess(ColorManager colorManager) {
-		final var colors = Arrays.copyOf(this.colors, numCols());
+		final var newcolors = Arrays.copyOf(this.colors, numCols());
 		
 		int i = 0;
 		var guessFound = false;
-		while (i < colors.length && !guessFound) {
+		while (i < newcolors.length && !guessFound) {
 			if (colorManager.isThereNextColor(getColor(i))) {
-				colors[i] = colorManager.nextColor(colors[i]);
+				newcolors[i] = colorManager.nextColor(newcolors[i]);
 				guessFound = true;
 			} else {
-				colors[i] = colorManager.firstColor();
+				newcolors[i] = colorManager.firstColor();
 				i++;
 			}
 		}
 		if (guessFound) {
-			return new Guess(colors);
+			return new Guess(newcolors);
 		} else {
 			return Guess.none;
 		}
@@ -83,6 +83,9 @@ public class Guess {
 	}
 	
 	private void  assertCompatibility(Guess guess) {
+		if (guess.equals(Guess.none)) {
+			throw new IllegalArgumentException("Guess cannot be none");
+		}
 		if (numCols() != guess.numCols()) {
 			throw new IllegalArgumentException("Cannot compare guesses of different lengths");
 		}
@@ -92,9 +95,7 @@ public class Guess {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof Guess))
+		if (obj == null || !(obj instanceof Guess))
 			return false;
 		Guess other = (Guess) obj;
 		return Arrays.equals(colors, other.colors);

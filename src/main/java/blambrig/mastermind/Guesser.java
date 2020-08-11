@@ -1,5 +1,7 @@
 package blambrig.mastermind;
 
+import java.util.Arrays;
+
 public class Guesser {
 	protected final Table table;
 	protected final ColorManager colorManager;
@@ -10,9 +12,9 @@ public class Guesser {
 		this.colorManager = table.colorManager;
 	}
 	
-	public Guess guess() {
+	public Guess guess() throws Exception {
 		Guess guess = nextGuess();
-		while (!guess.equals(Guess.none) && notGuessedBefore(guess)) {
+		while (!guess.equals(Guess.none) && guessedBefore(guess)) {
 			guess = nextGuess();
 		}
 		if (guess.equals(Guess.none)) {
@@ -23,7 +25,9 @@ public class Guesser {
 	}
 	
 	protected Guess getFirstGuess() {
-		Color[] colors = colorManager.slice(table.numCols);
+		//Color[] colors = colorManager.slice(table.numCols);
+		Color[] colors = new Color[table.numCols];
+		Arrays.fill(colors, colorManager.firstColor());
 		return new Guess(colors);
 	}
 	
@@ -41,20 +45,15 @@ public class Guesser {
 		if (newGuess.equals(Guess.none)) {
 			return Guess.none;
 		} else {
+			lastGuess = newGuess;
 			return newGuess;
 		}
 	}
 	
 	private boolean guessedBefore(Guess guess) {
-		for (Row row : table.rows) {
-			if (row.guess.equals(guess)) {
-				return true;
-			}
+		if (table.guesses.contains(guess)) {
+			return true;
 		}
 		return false;
-	}
-	
-	private boolean notGuessedBefore(Guess guess) {
-		return !guessedBefore(guess);
 	}
 }

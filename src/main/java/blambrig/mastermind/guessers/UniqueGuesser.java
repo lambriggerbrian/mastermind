@@ -11,6 +11,11 @@ public class UniqueGuesser extends Guesser {
 	}
 	
 	@Override
+	protected Guess getFirstGuess() {
+		return new Guess(colorManager.slice(table.numCols));
+	}
+	
+	@Override
 	protected Guess nextGuess() {
 		Guess guess = super.nextGuess();
 		while (!guess.isUnique()) {

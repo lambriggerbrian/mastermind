@@ -19,7 +19,9 @@ public class Game {
 		final int matchedPositions = secretGuess.numMatchingPositions(guess);
 		final int matchedColors = secretGuess.numMatchingColors(guess);
 		Row row = new Row(guess, matchedPositions, matchedColors);
-		table.addRow(row);
+		if (!table.addRow(row)) {
+			throw new IllegalArgumentException("Guess is not unique");
+		}
 		if (matchedPositions == numCols) {
 			finished = true;
 		}
@@ -28,6 +30,10 @@ public class Game {
 	
 	public String secretToString() {
 		return secretGuess.toString();
+	}
+	
+	public Table getTable() {
+		return this.table;
 	}
 	
 	public boolean isFinished() {
