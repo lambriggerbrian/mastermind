@@ -1,69 +1,60 @@
 package blambrig.mastermind;
 
-public abstract class Guesser {
+public class Guesser {
 	protected final Table table;
-	private final ColorManager colorManager;
-	protected final Color[] lastGuess;
-	public static final Color[] none = new Color[] {Color.none};
+	protected final ColorManager colorManager;
+	protected Guess lastGuess = Guess.none;
 	
 	public Guesser(Table table) {
 		this.table = table;
-		this.lastGuess = new Color[table.numCols];
 		this.colorManager = table.colorManager;
 	}
 	
-	public Row guess() {
-		Color[] guess = nextGuess();
-		while (guess != none && !notGuessedBefore(guess)) {
+	public Guess guess() {
+		Guess guess = nextGuess();
+		while (!guess.equals(Guess.none) && notGuessedBefore(guess)) {
 			guess = nextGuess();
 		}
-		if (guess == none) {
-			return Row.none;
+		if (guess.equals(Guess.none)) {
+			return Guess.none;
 		} else {
-			return new Row(guess);
+			return guess;
 		}
 	}
 	
-	abstract protected void setFirstGuess();
+	protected Guess getFirstGuess() {
+		Color[] colors = colorManager.slice(table.numCols);
+		return new Guess(colors);
+	}
 	
-	protected Color[] nextGuess() {
-		if (lastGuess[0] == null) {
-			setFirstGuess();
+	protected Guess nextGuess() {
+		if (lastGuess.equals(Guess.none)) {
+			lastGuess = getFirstGuess();
 			return lastGuess;
 		} else {
 			return nextNonFirstGuess();
 		}
 	}
 	
-	private Color[] nextNonFirstGuess() {
-		int i = 0;
-		boolean guessFound = false;
-		while (i < table.numCols && !guessFound) {
-			if (colorManager.isThereNextColor(lastGuess[i])) {
-				lastGuess[i] = colorManager.nextColor(lastGuess[i]);
-				guessFound = true;
-			} else {
-				lastGuess[i] = colorManager.firstColor();
-				i++;
-			}
-		}
-		if (guessFound) {
-			return lastGuess;
+	private Guess nextNonFirstGuess() {
+		Guess newGuess = lastGuess.nextGuess(colorManager);
+		if (newGuess.equals(Guess.none)) {
+			return Guess.none;
 		} else {
-			return none;
+			return newGuess;
 		}
 	}
 	
-	private boolean guessedBefore(Color[] guess) {
+	private boolean guessedBefore(Guess guess) {
 		for (Row row : table.rows) {
-			if (!row.isMatch(guess)) {
+			if (row.guess.equals(guess)) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	private boolean notGuessedBefore(Color[] guess) {
+	private boolean notGuessedBefore(Guess guess) {
 		return !guessedBefore(guess);
 	}
 }

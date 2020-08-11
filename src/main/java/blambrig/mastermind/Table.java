@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Table {
 	public final ColorManager colorManager;
-	final int numCols;
+	public final int numCols;
 	final List<Row> rows;
 	
 	public Table(int numCols, ColorManager colorManager) {

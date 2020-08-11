@@ -1,28 +1,33 @@
 package blambrig.mastermind;
 
 public class Game {
-	final Table table;
-	final private Row secretRow;
+	private final Table table;
+	private final Guess secretGuess;
 	private boolean finished = false;
 	final int numCols;
 	
 	public Game(Table table, Color[] secret) {
 		this.table = table;
-		this.secretRow = new Row(secret);
-		this.numCols = secretRow.numCols();
+		this.secretGuess = new Guess(secret);
+		this.numCols = secretGuess.numCols();
 	}
 	
-	public void addNewGuess(Row row) {
+	public Row addNewGuess(Guess guess) {
 		if (isFinished()) {
 			throw new IllegalArgumentException("Game is finished. No more guesses allowed");
 		}
-		final int matchedPositions = secretRow.numMatchingPositions(row.positions);
-		final int matchedColors = secretRow.numMatchingColors(row.positions);
-		row.setMatch(matchedPositions, matchedColors);
+		final int matchedPositions = secretGuess.numMatchingPositions(guess);
+		final int matchedColors = secretGuess.numMatchingColors(guess);
+		Row row = new Row(guess, matchedPositions, matchedColors);
 		table.addRow(row);
 		if (matchedPositions == numCols) {
 			finished = true;
 		}
+		return row;
+	}
+	
+	public String secretToString() {
+		return secretGuess.toString();
 	}
 	
 	public boolean isFinished() {
