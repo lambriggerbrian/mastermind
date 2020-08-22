@@ -12,4 +12,8 @@ public class Row {
 		this.matchedPositions = matchedPositions;
 		this.matchedColors = matchedColors;
 	}
+	
+	public String toString() {
+		return String.format("%s (%d / %d)", guess.toString(), matchedColors, matchedPositions);
+	}
 }

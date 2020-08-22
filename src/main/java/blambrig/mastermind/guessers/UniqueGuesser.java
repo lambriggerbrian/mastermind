@@ -1,10 +1,10 @@
 package blambrig.mastermind.guessers;
 
 import blambrig.mastermind.Guess;
-import blambrig.mastermind.Guesser;
+import blambrig.mastermind.SimpleGuesser;
 import blambrig.mastermind.Table;
 
-public class UniqueGuesser extends Guesser {
+public class UniqueGuesser extends SimpleGuesser {
 	
 	public UniqueGuesser(Table table) {
 		super(table);

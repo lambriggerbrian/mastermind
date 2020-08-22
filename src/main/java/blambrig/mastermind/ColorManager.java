@@ -2,18 +2,22 @@ package blambrig.mastermind;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class ColorManager {
-	final protected int numColors;
-	final protected Map<Color, Color> nextColors = new HashMap<Color, Color>();
-	final protected Map<Color, Color> prevColors = new HashMap<Color, Color>();
+	protected final int numColors;
+	protected final Map<Color, Color> nextColors = new HashMap<Color, Color>();
+	protected final Map<Color, Color> prevColors = new HashMap<Color, Color>();
+	protected final Color[] colors;
 	private Color first;
 	private Color last;
 	private final ColorFactory colorFactory;
+	private static Random random = new Random();
 	
 	public ColorManager(int numColors, ColorFactory colorFactory) {
 		this.numColors = numColors;
 		this.colorFactory = colorFactory;
+		this.colors = new Color[numColors];
 		createOrdering();
 	}
 	
@@ -37,6 +41,10 @@ public class ColorManager {
 			return lastColor();
 		}
 		return prevColors.get(color);
+	}
+	
+	public int numColors() {
+		return numColors;
 	}
 
 	public boolean isThereNextColor(Color color) {
@@ -81,17 +89,19 @@ public class ColorManager {
 		}
 		return slice;
 	}
+	
+	public Color getRandomColor() {
+		return this.colors[random.nextInt(this.numColors)];
+	}
 
-	private Color[] createColors() {
-		Color[] colors = new Color[numColors];
+	private void createColors() {
 		for (int i = 0; i < numColors; i++) {
-			colors[i] = colorFactory.newColor();
+			this.colors[i] = colorFactory.newColor();
 		}
-		return colors;
 	}
 	
 	private void createOrdering() {
-		Color[] colors = createColors();
+		createColors();
 		first = colors[0];
 		last = colors[numColors-1];
 		for (int i = 0; i < numColors - 1; i++) {

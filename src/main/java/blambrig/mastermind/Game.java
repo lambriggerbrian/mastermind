@@ -20,7 +20,7 @@ public class Game {
 		final int matchedColors = secretGuess.numMatchingColors(guess);
 		Row row = new Row(guess, matchedPositions, matchedColors);
 		if (!table.addRow(row)) {
-			throw new IllegalArgumentException("Guess is not unique");
+				return Row.none;
 		}
 		if (matchedPositions == numCols) {
 			finished = true;

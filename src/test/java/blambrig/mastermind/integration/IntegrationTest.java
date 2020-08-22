@@ -20,29 +20,44 @@ public class IntegrationTest {
 		Table table = new Table(numCols, colorManager);
 		Color[] secret = createSecret();
 		Game game = new Game(table, secret);
-		System.out.println(game.secretToString());
+		System.out.println(String.format("Secret is: %s", game.secretToString()));
 		return game;
 	}
 	
 	@Test
 	public void testSimpleGame() {
 		Game game = createGame();
-		Guesser guesser = new Guesser(game.getTable());
+		SimpleGuesser guesser = new SimpleGuesser(game.getTable());
 		Player player = new SimpleGamePlayer(game, guesser);
 		player.play();
 		while (!game.isFinished()) {
 			player.play();
 		}
+		assert(game.isFinished());
 	}
 	
 	@Test
 	public void testUniqueGame() {
 		Game game = createGame();
-		Guesser guesser = new UniqueGuesser(game.getTable());
+		SimpleGuesser guesser = new UniqueGuesser(game.getTable());
 		Player player = new SimpleGamePlayer(game, guesser);
 		player.play();
 		while (!game.isFinished()) {
 			player.play();
 		}
+		assert(game.isFinished());
+	}
+	
+	@Test
+	public void testSimpleParallel() {
+		Game game = createGame();
+		Player player = new ParallelGamePlayer(game);
+		final int MAX_TRIES = 2000;
+		int count = 0;
+		while (!game.isFinished() && count < MAX_TRIES) {
+			count++;
+			player.play();
+		}
+		assert(game.isFinished());
 	}
 }
