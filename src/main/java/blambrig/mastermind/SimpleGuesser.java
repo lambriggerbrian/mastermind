@@ -6,10 +6,14 @@ public class SimpleGuesser implements Guesser {
 	protected final Table table;
 	protected final ColorManager colorManager;
 	protected Guess lastGuess = Guess.none;
+	protected final Partitioner partitioner;
+	protected final Partition partition;
 	
-	public SimpleGuesser(Table table) {
+	public SimpleGuesser(Table table, Partitioner partitioner) {
 		this.table = table;
 		this.colorManager = table.colorManager;
+		this.partitioner = partitioner;
+		this.partition = partitioner.getNext();
 	}
 	
 	public Guess guess() {

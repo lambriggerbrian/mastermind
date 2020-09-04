@@ -1,13 +1,19 @@
 package blambrig.mastermind;
 
-public class SimpleGamePlayer implements Player{
+public class SimpleGamePlayer implements Player {
 	protected final Game game;
 	protected final Guesser guesser;
 	protected int guesses;
+	protected boolean isVerbose = false;
 	
 	public SimpleGamePlayer(Game game, Guesser guesser) {
 		this.game = game;
 		this.guesser = guesser;
+	}
+	
+	public SimpleGamePlayer(Game game, Guesser guesser, boolean isVerbose) {
+		this(game, guesser);
+		this.isVerbose = isVerbose;
 	}
 	
 	@Override
@@ -17,7 +23,7 @@ public class SimpleGamePlayer implements Player{
 			guess = guesser.guess();	
 		}
 		Row row = game.addNewGuess(guess);
-		if (!row.equals(Row.none)) {
+		if (isVerbose && !row.equals(Row.none)) {
 			System.out.println(row.toString());
 		}
 		guesses++;

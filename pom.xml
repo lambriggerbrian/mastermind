@@ -73,7 +73,8 @@
   <modules>
     
     
-    <module>mastermindsupportclasses</module>
+    
+    <module>guessers</module>
   </modules>
   <dependencyManagement>
   	<dependencies>

@@ -16,6 +16,12 @@ public class Table {
 		this.rows = new LinkedList<>();
 	}
 	
+	public Table(Table table) {
+		this.colorManager = table.colorManager;
+		this.numCols = table.numCols;
+		this.rows = new LinkedList<>();
+	}
+	
 	public boolean addRow(Row row) {
 		boolean unique = true;
 		if (guesses.contains(row.guess)) {
