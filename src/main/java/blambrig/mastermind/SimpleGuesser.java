@@ -3,21 +3,23 @@ package blambrig.mastermind;
 import java.util.Arrays;
 
 public class SimpleGuesser implements Guesser {
+	protected final Game game;
 	protected final Table table;
 	protected final ColorManager colorManager;
 	protected Guess lastGuess = Guess.none;
 	protected final Partitioner partitioner;
 	protected final Partition partition;
 	
-	public SimpleGuesser(Table table, Partitioner partitioner) {
-		this.table = table;
-		this.colorManager = table.colorManager;
+	public SimpleGuesser(Game game, Partitioner partitioner) {
+		this.game = game;
+		this.table = game.getTable();
+		this.colorManager = this.game.getTable().colorManager;
 		this.partitioner = partitioner;
 		this.partition = partitioner.getNext();
 	}
 	
 	public Guess guess() {
-		Guess guess = nextGuess();
+		Guess guess = partition.getNext();
 		while (!guess.equals(Guess.none) && guessedBefore(guess)) {
 			guess = nextGuess();
 		}
@@ -31,7 +33,7 @@ public class SimpleGuesser implements Guesser {
 	public void shutdown() {}
 	
 	protected Guess getFirstGuess() {
-		Color[] colors = new Color[table.numCols];
+		Color[] colors = new Color[game.numCols];
 		Arrays.fill(colors, colorManager.firstColor());
 		return new Guess(colors);
 	}

@@ -1,14 +1,14 @@
 package blambrig.mastermind.guessers;
 
+import blambrig.mastermind.Game;
 import blambrig.mastermind.Guess;
 import blambrig.mastermind.Partitioner;
 import blambrig.mastermind.SimpleGuesser;
-import blambrig.mastermind.Table;
 
 public class UniqueGuesser extends SimpleGuesser {
 	
-	public UniqueGuesser(Table table, Partitioner partitioner) {
-		super(table, partitioner);
+	public UniqueGuesser(Game game, Partitioner partitioner) {
+		super(game, partitioner);
 	}
 	
 	@Override

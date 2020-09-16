@@ -1,6 +1,7 @@
 package blambrig.mastermind;
 
 public class Game {
+	public final static Game none = new Game(null, null);
 	private final Table table;
 	private final Guess secretGuess;
 	private boolean finished = false;
@@ -26,6 +27,13 @@ public class Game {
 			finished = true;
 		}
 		return row;
+	}
+	
+	public int getGuessValue(Guess guess) {
+		final int matchedPositions = secretGuess.numMatchingPositions(guess);
+		final int matchedColors = secretGuess.numMatchingColors(guess);
+		if (matchedPositions == numCols) return Integer.MAX_VALUE;
+		return matchedPositions + matchedColors;
 	}
 	
 	public String secretToString() {

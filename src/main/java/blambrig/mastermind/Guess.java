@@ -82,7 +82,7 @@ public class Guess {
 		return unique;
 	}
 	
-	private void  assertCompatibility(Guess guess) {
+	private void assertCompatibility(Guess guess) {
 		if (guess.equals(Guess.none)) {
 			throw new IllegalArgumentException("Guess cannot be none");
 		}

@@ -25,7 +25,7 @@ public class IntegrationTest {
 	public void testSimpleGame() {
 		Game game = createGame();
 		Partitioner partitioner = new SimplePartitioner(colorManager, NUM_COLUMNS);
-		SimpleGuesser guesser = new SimpleGuesser(game.getTable(), partitioner);
+		SimpleGuesser guesser = new SimpleGuesser(game, partitioner);
 		Player player = new SimpleGamePlayer(game, guesser);
 		player.play();
 		while (!game.isFinished()) {

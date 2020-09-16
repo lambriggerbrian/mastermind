@@ -34,7 +34,7 @@ public class IntegrationTest {
 	@Test
 	public void testUniqueGame() {
 		Game game = createGame();
-		SimpleGuesser guesser = new UniqueGuesser(game.getTable(), new SimplePartitioner(colorManager, NUM_COLUMNS));
+		SimpleGuesser guesser = new UniqueGuesser(game, new SimplePartitioner(colorManager, NUM_COLUMNS));
 		Player player = new SimpleGamePlayer(game, guesser);
 		player.play();
 		while (!game.isFinished()) {
@@ -48,7 +48,7 @@ public class IntegrationTest {
 		Game game = createGame();
 		Integer NUM_THREADS = 4;
 		Partitioner partitioner = new ParallelPartitioner(colorManager, NUM_COLUMNS, NUM_THREADS);
-		Player player = new ParallelGamePlayer(game, new ParallelGuesser(game.getTable(), partitioner, NUM_THREADS));
+		Player player = new ParallelGamePlayer(game, new ParallelGuesser(game, partitioner, NUM_THREADS));
 		final int MAX_TRIES = 2000;
 		int count = 0;
 		while (!game.isFinished() && count < MAX_TRIES) {

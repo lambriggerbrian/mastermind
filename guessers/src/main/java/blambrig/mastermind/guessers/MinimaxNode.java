@@ -1,28 +1,45 @@
 package blambrig.mastermind.guessers;
 
-import com.google.common.collect.MinMaxPriorityQueue;
+import java.util.PriorityQueue;
 
 import blambrig.mastermind.Guess;
 
 public class MinimaxNode implements Comparable<MinimaxNode> {
 	public final static MinimaxNode none = new MinimaxNode(null, Guess.none, 0);
 	protected Integer value;
+	protected Integer depth;
 	protected final MinimaxNode parent;
 	protected final Guess guess;
-	protected final MinMaxPriorityQueue<MinimaxNode> children = MinMaxPriorityQueue.create();
+	protected final PriorityQueue<MinimaxNode> children = new PriorityQueue<>();
+	protected final boolean maximizing = true;
+	protected boolean guessed = false;
 	
 	public MinimaxNode(MinimaxNode parent, Guess guess, Integer value) {
 		this.value = value;
 		this.parent = parent;
 		this.guess = guess;
+		this.depth = parent.depth + 1;
+	}
+		
+	public Guess getGuess() {
+		return guess;
 	}
 	
-	public Guess getGuess() {
-		return this.guess;
+	public MinimaxNode getParent() {
+		return parent;
+	}
+	
+	public int getDepth() {
+		return depth;
+	}
+	
+	public boolean wasGuessed() {
+		return guessed;
 	}
 	
 	@Override
 	public int compareTo(MinimaxNode o) {
+		if (maximizing) return o.value.compareTo(value);
 		return value.compareTo(o.value);
 	}
 

@@ -12,6 +12,6 @@ public class SimplePartitioner extends Partitioner {
 		Arrays.fill(start, colorManager.firstColor());
 		Arrays.fill(end, colorManager.lastColor());
 		isDone = true;
-		return new Partition(new Guess(start), new Guess(end));
+		return new Partition(colorManager, new Guess(start), new Guess(end));
 	}
 }

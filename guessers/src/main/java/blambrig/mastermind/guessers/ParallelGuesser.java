@@ -7,10 +7,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import blambrig.mastermind.Game;
 import blambrig.mastermind.Guess;
 import blambrig.mastermind.Partitioner;
 import blambrig.mastermind.SimpleGuesser;
-import blambrig.mastermind.Table;
 
 public class ParallelGuesser extends SimpleGuesser {
 	protected final int QUEUE_SIZE = 500;
@@ -19,8 +19,8 @@ public class ParallelGuesser extends SimpleGuesser {
 	protected final BlockingQueue<Guess> guessQueue = new ArrayBlockingQueue<Guess>(QUEUE_SIZE);
 	private ExecutorService executorService;
 	
-	public ParallelGuesser(Table table, Partitioner partitioner, Integer numThreads) {
-		super(table, partitioner);
+	public ParallelGuesser(Game game, Partitioner partitioner, Integer numThreads) {
+		super(game, partitioner);
 		this.numThreads = numThreads;
 		this.guessers = createGuessers();
 		startAsyncGuessers(guessers);
@@ -54,7 +54,7 @@ public class ParallelGuesser extends SimpleGuesser {
 	protected IntervalWorker[] createGuessers() {
 		final var guessers = new IntervalWorker[numThreads];
 		for (int i = 0; i < numThreads; i++) {
-			guessers[i] = new IntervalWorker(table, partitioner, guessQueue);
+			guessers[i] = new IntervalWorker(game, partitioner, guessQueue);
 		}
 		return guessers;
 	}

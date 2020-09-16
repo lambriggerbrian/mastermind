@@ -2,18 +2,18 @@ package blambrig.mastermind.guessers;
 
 import java.util.concurrent.BlockingQueue;
 
+import blambrig.mastermind.Game;
 import blambrig.mastermind.Guess;
 import blambrig.mastermind.Partitioner;
 import blambrig.mastermind.SimpleGuesser;
-import blambrig.mastermind.Table;
 
 public class IntervalWorker extends SimpleGuesser implements Runnable {
 	private Guess lastGuess;
 	protected Guess nextGuess;
 	private final BlockingQueue<Guess> guessQueue;
 	
-	public IntervalWorker(Table table, Partitioner partitioner, BlockingQueue<Guess> guessQueue) {
-		super(table, partitioner);
+	public IntervalWorker(Game game, Partitioner partitioner, BlockingQueue<Guess> guessQueue) {
+		super(game, partitioner);
 		this.guessQueue = guessQueue;
 		nextGuess = partition.getStart();
 	}
