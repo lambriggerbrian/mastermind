@@ -10,11 +10,16 @@ public class Guess {
 	private boolean unique;
 	
 	public Guess(Color[] colors) {
-		this.colors = Arrays.copyOf(colors, colors.length);
+		if (colors == null || colors.length < 1) this.colors = new Color[] {Color.none};
+		else this.colors = Arrays.copyOf(colors, colors.length);
 	}
 	
 	public Color getColor(int i) {
 		return colors[i];
+	}
+	
+	public Color[] getColors() {
+		return colors;
 	}
 	
 	public int numCols() {

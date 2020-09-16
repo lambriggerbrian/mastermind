@@ -97,9 +97,9 @@ public class ColorManager {
 		if (index < 0 || index >= numColors) {
 			throw new IllegalArgumentException("Index must be > 0 and <= number of colors");
 		}
-		Color[] colors = new Color[size];
-		Arrays.fill(colors, colors[index]);
-		return colors;
+		Color[] fill = new Color[size];
+		Arrays.fill(fill, colors[index]);
+		return fill;
 	}
 	
 	public Color getRandomColor() {
@@ -112,6 +112,10 @@ public class ColorManager {
 			id += colorsToBase.get(color);
 		}
 		return Integer.parseInt(id, numColors);
+	}
+	
+	public int getSpaceSize(int numCols) {
+		return (int) Math.pow(numColors, numCols);
 	}
 
 	private void createColors() {
@@ -136,6 +140,11 @@ public class ColorManager {
 
 	public Color[] getColorsFromSpaceID(int id, int numCols) {
 		if (spaceIDToColors.containsKey(id)) return spaceIDToColors.get(id);
+		if (id < 0) {
+			Color[] colors = new Color[numCols];
+			Arrays.fill(colors, Color.none);
+			return colors;
+		}
 		return createSpaceIDToColorMapping(id, numCols);
 	}
 	

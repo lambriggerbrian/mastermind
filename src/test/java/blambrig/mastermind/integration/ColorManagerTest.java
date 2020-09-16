@@ -11,6 +11,7 @@ import blambrig.mastermind.LetteredColorFactory;
 public class ColorManagerTest {
 	final int NUM_COLORS = 4;
 	final int NUM_COLUMNS = 4;
+	final int NUM_POSSIBILITIES = (int)(Math.pow(NUM_COLORS, NUM_COLUMNS)) - 1;
 	final ColorManager colorManager = new ColorManager(NUM_COLORS, new LetteredColorFactory());
 	
 	@Test
@@ -20,7 +21,7 @@ public class ColorManagerTest {
 		assert(colorManager.getSpaceID(c0) == 0);
 		Color[] c1 = new Color[NUM_COLUMNS];
 		Arrays.fill(c1, colorManager.lastColor());
-		assert(colorManager.getSpaceID(c1) == Math.pow(NUM_COLORS, NUM_COLUMNS)-1);
+		assert(colorManager.getSpaceID(c1) == NUM_POSSIBILITIES);
 	}
 	
 	@Test
@@ -30,7 +31,7 @@ public class ColorManagerTest {
 		assert(Arrays.equals(c0, colorManager.getColorsFromSpaceID(0, NUM_COLUMNS)));
 		Color[] c1 = new Color[NUM_COLUMNS];
 		Arrays.fill(c1,  colorManager.lastColor());
-		assert(Arrays.equals(c1, colorManager.getColorsFromSpaceID(255, NUM_COLUMNS)));
+		assert(Arrays.equals(c1, colorManager.getColorsFromSpaceID(NUM_POSSIBILITIES, NUM_COLUMNS)));
 	}
 
 }

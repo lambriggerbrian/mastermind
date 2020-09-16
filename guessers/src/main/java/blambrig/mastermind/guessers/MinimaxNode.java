@@ -5,20 +5,21 @@ import java.util.PriorityQueue;
 import blambrig.mastermind.Guess;
 
 public class MinimaxNode implements Comparable<MinimaxNode> {
-	public final static MinimaxNode none = new MinimaxNode(null, Guess.none, 0);
+	public final static MinimaxNode none = new MinimaxNode(null, Guess.none, 0, Integer.MIN_VALUE);
+	public final int id;
 	protected Integer value;
 	protected Integer depth;
 	protected final MinimaxNode parent;
 	protected final Guess guess;
 	protected final PriorityQueue<MinimaxNode> children = new PriorityQueue<>();
 	protected final boolean maximizing = true;
-	protected boolean guessed = false;
 	
-	public MinimaxNode(MinimaxNode parent, Guess guess, Integer value) {
+	public MinimaxNode(MinimaxNode parent, Guess guess, Integer value, int id) {
 		this.value = value;
 		this.parent = parent;
 		this.guess = guess;
-		this.depth = parent.depth + 1;
+		this.depth = (parent == null) ? 0 : parent.depth + 1;
+		this.id = id;
 	}
 		
 	public Guess getGuess() {
@@ -33,8 +34,11 @@ public class MinimaxNode implements Comparable<MinimaxNode> {
 		return depth;
 	}
 	
-	public boolean wasGuessed() {
-		return guessed;
+	@Override
+	public String toString() {
+		String parentString = (parent == null) ? "None" : parent.guess.toString();
+		return String.format("%s: ID(%d), Depth(%d), Parent(%s), Value(%d)", 
+				guess.toString(), id, depth, parentString, value);
 	}
 	
 	@Override
@@ -57,6 +61,7 @@ public class MinimaxNode implements Comparable<MinimaxNode> {
 		if (getClass() != obj.getClass())
 			return false;
 		MinimaxNode other = (MinimaxNode) obj;
+		if (id == other.id) return true; 
 		if (guess == null || guess.equals(Guess.none)) {
 			if (other.guess != null || other.guess.equals(Guess.none))
 				return false;

@@ -16,7 +16,7 @@ public class MinimaxGuesser extends SimpleGuesser {
 	public MinimaxGuesser(Game game, Partitioner partitioner) {
 		super(game, partitioner);
 		this.simGame = game;
-		this.tree = new MinimaxTree(game, colorManager, MAX_LOOKAHEAD);
+		this.tree = new MinimaxTree(game, colorManager, table.numCols);
 	}
 	
 	public void initTree() {
