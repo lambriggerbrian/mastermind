@@ -33,7 +33,7 @@ public class Game {
 		final int matchedPositions = secretGuess.numMatchingPositions(guess);
 		final int matchedColors = secretGuess.numMatchingColors(guess);
 		if (matchedPositions == numCols) return Integer.MAX_VALUE;
-		return matchedPositions + matchedColors;
+		return (10 * matchedPositions) + matchedColors;
 	}
 	
 	public String secretToString() {

@@ -7,20 +7,21 @@ import blambrig.mastermind.ColorManager;
 import blambrig.mastermind.Game;
 import blambrig.mastermind.Guess;
 import blambrig.mastermind.LetteredColorFactory;
+import blambrig.mastermind.SimpleGamePlayer;
+import blambrig.mastermind.SimplePartitioner;
 import blambrig.mastermind.Table;
 
 public class MinimaxTreeIntegrationTest {
-	int NUM_COLORS = 4;
-	int NUM_COLUMNS = 4;
-	ColorManager colorManager = new ColorManager(NUM_COLORS, new LetteredColorFactory());
+	final int NUM_COLORS = 6;
+	final int NUM_COLUMNS = 4;
+	final ColorManager colorManager = new ColorManager(NUM_COLORS, new LetteredColorFactory());
 	
 	private Color[] createSecret() {
-		return colorManager.fill(NUM_COLUMNS, NUM_COLORS-1);
+		return colorManager.reverseSlice(NUM_COLUMNS);
 	}
 	
-	private Game createGame() {
+	private Game createGame(Color[] secret) {
 		Table table = new Table(NUM_COLUMNS, colorManager);
-		Color[] secret = createSecret();
 		Game game = new Game(table, secret);
 		System.out.println(String.format("Secret is: %s", game.secretToString()));
 		return game;
@@ -58,11 +59,24 @@ public class MinimaxTreeIntegrationTest {
 	
 	@Test
 	public void testTreeGrow() {
-		System.out.println(MinimaxNode.none);
-		Game game = createGame();
+		Color[] secret = colorManager.fill(NUM_COLUMNS, NUM_COLORS-1);
+		Game game = createGame(secret);
 		MinimaxTree tree = new MinimaxTree(game, colorManager, NUM_COLUMNS);
 		Guess guess = tree.getNextGuess();
-		Guess secret = new Guess(colorManager.fill(NUM_COLUMNS, NUM_COLORS-1));
-		assert(guess.equals(secret));
+		assert(!guess.equals(Guess.none));
+	}
+	
+	@Test
+	public void testTreeGame() {
+		Game game = createGame(createSecret());
+		MinimaxGuesser guesser = new MinimaxGuesser(game, new SimplePartitioner(colorManager, NUM_COLUMNS));
+		SimpleGamePlayer player = new SimpleGamePlayer(game, guesser, true);
+		final int MAX_TRIES = 2000;
+		int count = 0;
+		while (!game.isFinished() && count < MAX_TRIES) {
+			count++;
+			player.play();
+		}
+		assert(game.isFinished());
 	}
 }

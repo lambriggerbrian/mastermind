@@ -36,7 +36,6 @@ public class IntegrationTest {
 		Game game = createGame();
 		SimpleGuesser guesser = new UniqueGuesser(game, new SimplePartitioner(colorManager, NUM_COLUMNS));
 		Player player = new SimpleGamePlayer(game, guesser);
-		player.play();
 		while (!game.isFinished()) {
 			player.play();
 		}

@@ -15,6 +15,7 @@ public class ColorManager {
 	private Color first;
 	private Color last;
 	private final ColorFactory colorFactory;
+	private int spaceSize = -1;
 	private static Random random = new Random();
 	
 	public ColorManager(int numColors, ColorFactory colorFactory) {
@@ -115,7 +116,8 @@ public class ColorManager {
 	}
 	
 	public int getSpaceSize(int numCols) {
-		return (int) Math.pow(numColors, numCols);
+		if (spaceSize < 0) spaceSize = (int) Math.pow(numColors, numCols);
+		return spaceSize;
 	}
 
 	private void createColors() {
@@ -140,10 +142,8 @@ public class ColorManager {
 
 	public Color[] getColorsFromSpaceID(int id, int numCols) {
 		if (spaceIDToColors.containsKey(id)) return spaceIDToColors.get(id);
-		if (id < 0) {
-			Color[] colors = new Color[numCols];
-			Arrays.fill(colors, Color.none);
-			return colors;
+		if (id < 0 || id >= spaceSize) {
+			throw new IllegalArgumentException(String.format("ID must be > 0 and < Space Size: %d", id));
 		}
 		return createSpaceIDToColorMapping(id, numCols);
 	}
@@ -156,7 +156,7 @@ public class ColorManager {
 		for (int i = 0; i < numCols; i++) {
 			colorMapping[i] = colors[Integer.parseInt(String.valueOf(chars[i]), numColors)];
 		}
-		spaceIDToColors.put(id, colors);
+		spaceIDToColors.put(id, colorMapping);
 		return colorMapping;
 	}
 	

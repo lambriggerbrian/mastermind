@@ -3,7 +3,7 @@ package blambrig.mastermind;
 public class SimpleGamePlayer implements Player {
 	protected final Game game;
 	protected final Guesser guesser;
-	protected int guesses;
+	protected int guesses = 0;
 	protected boolean isVerbose = false;
 	
 	public SimpleGamePlayer(Game game, Guesser guesser) {
@@ -19,14 +19,15 @@ public class SimpleGamePlayer implements Player {
 	@Override
 	public void play() {
 		var guess = Guess.none;
-		while (guess.equals(Guess.none)) {
+		var row = Row.none;
+		while (guess.equals(Guess.none) || row.equals(Row.none)) {
 			guess = guesser.guess();	
-		}
-		Row row = game.addNewGuess(guess);
-		if (isVerbose && !row.equals(Row.none)) {
-			System.out.println(row.toString());
+			row = game.addNewGuess(guess);
 		}
 		guesses++;
+		if (isVerbose) {
+			System.out.println(row.toString());
+		}
 		if (game.isFinished()) {
 			System.out.println(
 					String.format("Secret = Guess! Game finished in %d guesses.", guesses));

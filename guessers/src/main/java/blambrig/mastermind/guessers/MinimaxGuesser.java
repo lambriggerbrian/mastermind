@@ -19,23 +19,20 @@ public class MinimaxGuesser extends SimpleGuesser {
 		this.tree = new MinimaxTree(game, colorManager, table.numCols);
 	}
 	
-	public void initTree() {
-		int cols = table.numCols;
-		Color cur = colorManager.firstColor();
-		while (!cur.equals(Color.none)) {
-			Color[] colors = new Color[cols];
-			Arrays.fill(colors, colorManager.firstColor());
-			colors[0] = cur;
-			Guess guess = new Guess(colors);
-			int value = game.getGuessValue(guess);
-			tree.addNode(tree.root, guess, value);
-		}
+	@Override
+	public Guess guess() {
+		if (tree.isFinished()) return Guess.none;
+		Guess guess = tree.getNextGuess();
+		return guess;
 	}
 	
 	@Override
-	public Guess guess() {
-		if (lastGuess.equals(Guess.none) && !tree.isFinished()) initTree();
-		Guess guess = tree.getNextGuess();
-		return null;
+	protected Guess getFirstGuess() {
+		return guess();
+	}
+	
+	@Override
+	protected Guess nextGuess() {
+		return guess();
 	}
 }
